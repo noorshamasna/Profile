@@ -10,7 +10,6 @@ import {
 } from "../utils/validators";
 import AuthLayout from "../components/auth/AuthLayout";
 import Alert from "../components/auth/Alert";
-import Stepper from "../components/auth/Stepper";
 import TextField from "../components/auth/TextField";
 import PasswordStrength from "../components/auth/PasswordStrength";
 import SubmitButton from "../components/auth/SubmitButton";
@@ -73,7 +72,6 @@ export default function SignUpPage() {
 
   return (
     <AuthLayout
-      stepper={<Stepper steps={STEPS} current={0} />}
       title="Create your account"
       subtitle="Build your professional profile from your resume and other supported sources."
     >
@@ -136,10 +134,6 @@ export default function SignUpPage() {
         </SubmitButton>
       </form>
 
-      <p className="auth-note">
-        Your profile is private to you. Documents are processed only to extract
-        professional information, and are never shared with other candidates.
-      </p>
       <p className="auth-switch">
         Already have an account?{" "}
         <Link to="/login" className="auth-link auth-bold">

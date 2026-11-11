@@ -10,15 +10,34 @@ import SubmitButton from "../components/auth/SubmitButton";
 
 // Every message shown above the form, keyed by the backend's answer.
 const ALERTS = {
-  INVALID_CREDENTIALS: { variant: "error", text: "Email or password is incorrect. Check your details and try again." },
-  EMAIL_NOT_VERIFIED: { variant: "warning", text: "Verify your email address to continue. We sent a link when you registered." },
-  SERVER_ERROR: { variant: "error", text: "We couldn't sign you in right now. Please try again in a moment." },
-  SUCCESS: { variant: "success", text: "Signed in. Taking you to your profile…" },
+  INVALID_CREDENTIALS: {
+    variant: "error",
+    text: "Email or password is incorrect. Check your details and try again.",
+  },
+  EMAIL_NOT_VERIFIED: {
+    variant: "warning",
+    text: "Verify your email address to continue. We sent a link when you registered.",
+  },
+  SERVER_ERROR: {
+    variant: "error",
+    text: "We couldn't sign you in right now. Please try again in a moment.",
+  },
+  SUCCESS: {
+    variant: "success",
+    text: "Signed in. Taking you to your profile…",
+  },
 };
 
-const BUTTON_LABEL = { idle: "Sign in", loading: "Signing in…", success: "Redirecting…" };
+const BUTTON_LABEL = {
+  idle: "Sign in",
+  loading: "Signing in…",
+  success: "Redirecting…",
+};
 
-const validators = { email: validateEmail, password: validateRequired("Enter your password.") };
+const validators = {
+  email: validateEmail,
+  password: validateRequired("Enter your password."),
+};
 
 export default function LoginPage() {
   const navigate = useNavigate();
@@ -28,7 +47,9 @@ export default function LoginPage() {
     validators,
   );
   const [status, setStatus] = useState("idle"); // idle | loading | success
-  const [alertKey, setAlertKey] = useState(state?.notice === "verify" ? "EMAIL_NOT_VERIFIED" : null);
+  const [alertKey, setAlertKey] = useState(
+    state?.notice === "verify" ? "EMAIL_NOT_VERIFIED" : null,
+  );
   const [resent, setResent] = useState(false);
   const alert = ALERTS[alertKey];
 
@@ -55,32 +76,63 @@ export default function LoginPage() {
   };
 
   return (
-    <AuthLayout title="Welcome back" subtitle="Sign in to manage your profile and keep your information up to date.">
+    <AuthLayout
+      title="Welcome back"
+      subtitle="Sign in to manage your profile and keep your information up to date."
+    >
       {alert && <Alert variant={alert.variant}>{alert.text}</Alert>}
       {alertKey === "EMAIL_NOT_VERIFIED" && (
-        <button type="button" className="auth-link auth-resend" onClick={handleResend} disabled={resent}>
+        <button
+          type="button"
+          className="auth-link auth-resend"
+          onClick={handleResend}
+          disabled={resent}
+        >
           {resent ? "Verification email sent" : "Resend verification email"}
         </button>
       )}
 
       <form className="auth-form" onSubmit={handleSubmit} noValidate>
-        <TextField label="Email address" type="email" placeholder="name@example.com" autoComplete="email" {...field("email")} />
-        <TextField label="Password" type="password" placeholder="Enter your password" autoComplete="current-password" {...field("password")} />
+        <TextField
+          label="Email address"
+          type="email"
+          placeholder="name@example.com"
+          autoComplete="email"
+          {...field("email")}
+        />
+        <TextField
+          label="Password"
+          type="password"
+          placeholder="Enter your password"
+          autoComplete="current-password"
+          {...field("password")}
+        />
 
         <div className="auth-row">
           <label className="auth-check">
-            <input type="checkbox" name="remember" checked={values.remember} onChange={handleChange} />
+            <input
+              type="checkbox"
+              name="remember"
+              checked={values.remember}
+              onChange={handleChange}
+            />
             Keep me signed in on this device
           </label>
-          <a href="#" className="auth-link">Forgot password?</a>
+          <a href="#" className="auth-link">
+            Forgot password?
+          </a>
         </div>
 
-        <SubmitButton busy={status !== "idle"}>{BUTTON_LABEL[status]}</SubmitButton>
+        <SubmitButton busy={status !== "idle"}>
+          {BUTTON_LABEL[status]}
+        </SubmitButton>
       </form>
 
-      <a href="#" className="auth-link auth-center">Email me a sign-in link instead</a>
       <p className="auth-switch">
-        New to LuminaCV? <Link to="/signup" className="auth-link auth-bold">Create an account</Link>
+        New to LuminaCV?{" "}
+        <Link to="/signup" className="auth-link auth-bold">
+          Create an account
+        </Link>
       </p>
     </AuthLayout>
   );
